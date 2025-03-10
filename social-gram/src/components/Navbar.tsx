@@ -1,17 +1,28 @@
 "use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import MobileMenu from "./MobileMenu";
 import Image from "next/image";
-import {
-  ClerkLoaded,
-  ClerkLoading,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut } from "@clerk/nextjs";
+
+// Dynamically import UserButton to avoid SSR mismatch
+const UserButton = dynamic(
+  () => import("@clerk/nextjs").then((mod) => mod.UserButton),
+  { ssr: false }
+);
 
 const Navbar = () => {
+  // Ensure component renders only on the client
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null; // Avoid SSR mismatches
+
   return (
     <div className="h-24 flex items-center justify-between">
       {/* LEFT */}
@@ -41,6 +52,7 @@ const Navbar = () => {
               type="text"
               placeholder="search..."
               className="bg-transparent outline-none"
+              suppressHydrationWarning
             />
             <Image src="/search.png" alt="search" width={14} height={14} />
           </div>
@@ -49,7 +61,7 @@ const Navbar = () => {
       {/* RIGHT */}
       <div className="w-[30%] flex items-center gap-4 xl:gap-8 justify-end">
         <ClerkLoading>
-          {/*loading spinner */}
+          {/* Loading spinner */}
           <div
             className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"
@@ -58,19 +70,28 @@ const Navbar = () => {
         <ClerkLoaded>
           <SignedIn>
             <div className="cursor-pointer">
-              <Image src="/people.png" alt="" width={24} height={24} />
+              <Image src="/people.png" alt="People" width={24} height={24} />
             </div>
             <div className="cursor-pointer">
-              <Image src="/messages.png" alt="" width={20} height={20} />
+              <Image
+                src="/messages.png"
+                alt="Messages"
+                width={20}
+                height={20}
+              />
             </div>
             <div className="cursor-pointer">
-              <Image src="/notifications.png" alt="" width={20} height={20} />
+              <Image
+                src="/notifications.png"
+                alt="Notifications"
+                width={20}
+                height={20}
+              />
             </div>
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <div className="">
-              {/* <Image src="/login.png" alt="" width={20} height={20} /> */}
+            <div>
               <Link href="/sign-in">Login/Register</Link>
             </div>
           </SignedOut>
