@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import Post from "./Post";
 
 const Feed = () => {
   return (
-    <div>Feed</div>
-  )
-}
+    <div className="p-4 bg-white rounded-lg shadow-md flex flex-col gap-12">
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+    </div>
+  );
+};
 
-export default Feed
+export default Feed;
