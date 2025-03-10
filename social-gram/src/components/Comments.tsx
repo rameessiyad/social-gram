@@ -1,7 +1,16 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Comments = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (isClient) return null;
+
   return (
     <div className="">
       {/* WRITE */}

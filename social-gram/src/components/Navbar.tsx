@@ -7,21 +7,19 @@ import MobileMenu from "./MobileMenu";
 import Image from "next/image";
 import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut } from "@clerk/nextjs";
 
-// Dynamically import UserButton to avoid SSR mismatch
 const UserButton = dynamic(
   () => import("@clerk/nextjs").then((mod) => mod.UserButton),
   { ssr: false }
 );
 
 const Navbar = () => {
-  // Ensure component renders only on the client
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) return null; // Avoid SSR mismatches
+  if (!isClient) return null; 
 
   return (
     <div className="h-24 flex items-center justify-between">
