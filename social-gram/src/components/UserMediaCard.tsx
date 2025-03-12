@@ -1,9 +1,10 @@
+import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const UserMediaCard = ({ userId }: { userId: string }) => {
+const UserMediaCard = ({ user }: { user?: User }) => {
   return (
     <div className="p-2 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
       {/* TOP */}

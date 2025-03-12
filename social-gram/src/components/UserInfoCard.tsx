@@ -1,8 +1,16 @@
+import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const UserInfoCard = ({ userId }: { userId: string }) => {
+const UserInfoCard = ({ user }: { user?: User }) => {
+  const createAtDate = new Date(user?.createdAt || "");
+
+  const formatedDate = createAtDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   return (
     <div className="p-2 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
       {/* TOP */}
@@ -15,44 +23,62 @@ const UserInfoCard = ({ userId }: { userId: string }) => {
       {/* BOTTOM */}
       <div className="flex flex-col gap-4 text-gray-500 ">
         <div className="flex items-center gap-2">
-          <span className="text-black">Ramees Siyad</span>
-          <span>@ramees</span>
-        </div>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa
-          consequatur laboriosam enim vitae natus!
-        </p>
-        <div className="flex items-center gap-2">
-          <Image src="/map.png" alt="" width={16} height={16} className="" />
-          <span>
-            Living in <b>India</b>
+          <span className="text-black">
+            {" "}
+            {user?.name && user?.surname
+              ? user?.name + " " + user?.surname
+              : user?.username}
           </span>
+          <span>@{user?.username}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <Image src="/school.png" alt="" width={16} height={16} className="" />
-          <span>
-            Went to <b>MES College</b>
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Image src="/work.png" alt="" width={16} height={16} className="" />
-          <span>
-            Works at <b>Cords Innovations</b>
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1 items-center">
-            <Image src="/link.png" alt="" width={16} height={16} />
-            <Link
-              href="https://github.com/rameessiyad"
-              className="text-blue-500 font-medium"
-            >
-              ramees
-            </Link>
+        {user?.description && <p>{user?.description}</p>}
+
+        {user?.city && (
+          <div className="flex items-center gap-2">
+            <Image src="/map.png" alt="" width={16} height={16} className="" />
+            <span>
+              Living in <b>{user?.city}</b>
+            </span>
           </div>
+        )}
+
+        {user?.school && (
+          <div className="flex items-center gap-2">
+            <Image
+              src="/school.png"
+              alt=""
+              width={16}
+              height={16}
+              className=""
+            />
+            <span>
+              Went to <b>{user?.school}</b>
+            </span>
+          </div>
+        )}
+
+        {user?.work && (
+          <div className="flex items-center gap-2">
+            <Image src="/work.png" alt="" width={16} height={16} className="" />
+            <span>
+              Works at <b>{user.work}</b>
+            </span>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between">
+          {user?.website && (
+            <div className="flex gap-1 items-center">
+              <Image src="/link.png" alt="" width={16} height={16} />
+              <Link href={user?.website} className="text-blue-500 font-medium">
+                ramees
+              </Link>
+            </div>
+          )}
+
           <div className="flex gap-1 items-center">
             <Image src="/date.png" alt="" width={16} height={16} />
-            <span>Joined November 2024</span>
+            <span>Joined {formatedDate}</span>
           </div>
         </div>
         <button className="p-2 bg-blue-500 text-white text-xs rounded-md cursor-pointer">
