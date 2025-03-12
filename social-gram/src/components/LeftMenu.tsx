@@ -29,7 +29,7 @@ const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
           href="/my-posts"
           className="flex gap-4 items-center p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/albmus.png" alt="" width={20} height={20} />
+          <Image src="/albums.png" alt="" width={20} height={20} />
           <span>Albums</span>
         </Link>
         <hr className="border-t-2 border-gray-50 w-36 self-center" />

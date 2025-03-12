@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 
@@ -15,10 +16,11 @@ const AddPost = () => {
       {/* POST */}
       <div className="flex-1">
         {/* TEXT INPUT */}
-        <div className="flex gap-4">
+        <form className="flex gap-4">
           <textarea
-            placeholder="What on your mind?"
+            placeholder="What's on your mind?"
             className="flex-1 bg-slate-100 rounded-lg p-2"
+            name="desc"
           ></textarea>
           <Image
             src="/emoji.png"
@@ -27,7 +29,8 @@ const AddPost = () => {
             height={20}
             className="cursor-pointer self-end"
           />
-        </div>
+          <button type="submit">Send</button>
+        </form>
         {/* POST OPTIONS */}
         <div className="flex items-center gap-4 mt-4 text-gray-400 flex-wrap">
           <div className="flex items-center gap-2 cursor-pointer">
